@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="normal12/base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Home Page of Dashboard</title>
+
+</head>
+<body>
+<section>
+
+    <div class="container">
+
+        <div class="card">
+
+            <div class="card-body my-5">
+
+                <div class="container text-center">
+                    <img src="" style="height:200px; width:200px;"
+                    class="my_profile" th:src="@{'/img/contact.png'}"
+                    alt="profile photo" />
+                </div>
+
+                <h1 class="text-center mt-3 text-secondary font-italic font-width-light">
+                    Start adding your contacts on cloud...</h1>
+
+                <a th:href="@{'/user/add-contact'}" href=""
+                   class="btn btn-primary mt-4 btn-block btn-block text-uppercase">
+                    Add New Contact</a>
+
+                <hr>
+
+                <h3 class="my-3">DonateUs</h3>
+
+                <input type="text" name="amount" class="form-control my-2" id="payment_field" placeholder="Enter amount here">
+
+                <div class="container text-center mt-3">
+                    <button onclick="donate()" class="btn btn-success btn-block">Checkout</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        $(document).ready(()=>{
+        $(".item").removeClass("active");
+        $("#home-link").addClass("active");
+        });
+
+    </script>
+
+</section>
+</body>
+</html>
