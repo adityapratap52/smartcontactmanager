@@ -52,14 +52,18 @@ const donate = () => {
     let amount=$("#payment_field").val();
     console.log(amount);
     if(amount == '' || amount == null) {
-        alert("amount is required");
+
+        swal("Warning!", "amount is required","warning");
+
         return;
     }
 
-//    if(amount <= 0) {
-//        alert("amount is more than 0");
-//        return;
-//    }
+    if(amount <= 0) {
+
+        swal("Warning!", "amount is more than 0","warning");
+
+        return;
+    }
 
     // we will use ajax to send request to server to create order- jquery
 
@@ -72,11 +76,82 @@ const donate = () => {
     success: function (response) {
     // invoked where success
     console.log(response);
+    if(response.status == "created") {
+
+        // open payment form
+        let options = {
+        key: "rzp_test_AIWgmWc9Y5bFxH",
+        amount: response.amount,
+        currency: "INR",
+        name: "Smart Contact Manager",
+        description: "Donation",
+        image: "https://icon2.cleanpng.com/20180328/wvw/kisspng-computer-icons-address-book-google-contacts-book-now-button-5abb94989e1ec5.7608596315222427126477.jpg",
+        order_id: response.id,
+
+        handler: function (response) {
+            console.log(response.razorpay_payment_id);
+            console.log(response.razorpay_order_id);
+            console.log(response.razorpay_signature);
+            console.log("payment successful");
+
+            updatePaymentOnServer (
+            response.razorpay_payment_id,
+            response.razorpay_order_id,
+            "paid"
+            );
+        },
+         prefill: {
+             name: "",
+             email: "",
+             contact: "",
+         },
+         notes: {
+             address: "Learning languages",
+         },
+         theme: {
+             color: "#3399cc",
+         },
+        };
+
+        let rzp = new Razorpay(options);
+
+        rzp.on("payment.failed", function (response){
+                console.log(response.error.code);
+                console.log(response.error.description);
+                console.log(response.error.source);
+                console.log(response.error.step);
+                console.log(response.error.reason);
+                console.log(response.error.metadata.order_id);
+                console.log(response.error.metadata.payment_id);
+
+                swal("Failed!", "Oops payment failed !!","danger");
+
+        });
+
+        rzp.open();
+    }
     },
     error: function (error) {
     // invoked when error
     console.log(error);
-    alert("something went wrong !!");
+                swal("Failed!", "Something went wrong !!","danger");
     },
     });
 };
+
+function updatePaymentOnServer (payment_id, order_id, status)
+{
+ $.ajax({
+    url: "/user/update_order",
+    data: JSON.stringify({payment_id:payment_id, order_id:order_id, status:status}),
+    contentType: "application/json",
+    type: "POST",
+    dataType: "json",
+    success: function (response) {
+       swal("Good jobs", "payment successfully !!", "success");
+    },
+    error: function (error) {
+       swal("Failed!", "Your payment is success, but we did not get on server, we will contact you as soon as possible on gmail !!","danger");
+    }
+    })
+}
