@@ -80,7 +80,7 @@ const donate = () => {
 
         // open payment form
         let options = {
-        key: "rzp_test_AIWgmWc9Y5bFxH",
+        key: "rzp_test_U935QgMecs6FyP",
         amount: response.amount,
         currency: "INR",
         name: "Smart Contact Manager",

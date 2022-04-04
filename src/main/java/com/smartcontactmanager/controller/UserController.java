@@ -362,7 +362,7 @@ public class UserController {
 
         int amt = Integer.parseInt(data.get("amount").toString());
 
-        var client = new RazorpayClient("rzp_test_AIWgmWc9Y5bFxH", "5hd1tywHYnUkfd3lsaQQ5KBT");
+        var client = new RazorpayClient("rzp_test_U935QgMecs6FyP", "BFFwWqxGqny5lgCDaEpulwFk");
 
         JSONObject ob = new JSONObject();
         ob.put("amount", amt*100);
