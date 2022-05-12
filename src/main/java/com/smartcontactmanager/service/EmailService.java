@@ -14,7 +14,8 @@ public class EmailService {
 
         boolean f = false;
 
-        String from = "adityapratap1490@gmail.com";
+        // enter host username/email id
+        String from = <username>;
 
         // get the system properties
         Properties properties = System.getProperties();
@@ -32,7 +33,8 @@ public class EmailService {
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("adityapratap1490@gmail.com", "Da@1234&as");
+                // enter your email id and password
+                return new PasswordAuthentication(<username>, <password>);
             }
         });
 
